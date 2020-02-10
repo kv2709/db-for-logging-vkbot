@@ -53,27 +53,26 @@ def get_conn_db():
 
 # con = get_conn_db()
 # cur = con.cursor()
-#
+
 # cur.execute('''
 #     CREATE SEQUENCE event_ids;
 #     ''')
-#
+
 # cur.execute('''
 #     CREATE TABLE event (
 #     id INTEGER PRIMARY KEY DEFAULT NEXTVAL('event_ids'),
 #     body TEXT NOT NULL);
 #     ''')
-#
+
 # cur.execute('''
 #     CREATE SEQUENCE error_ids;
 #     ''')
-#
+
 # cur.execute('''
 #     CREATE TABLE error (
 #      id INTEGER PRIMARY KEY DEFAULT NEXTVAL('error_ids'),
 #      body TEXT NOT NULL);
 #      ''')
-
 
 # cur.execute('''
 #     INSERT INTO event (body) VALUES ('Новая строка протокола работы бота');
@@ -81,8 +80,10 @@ def get_conn_db():
 #
 
 # cur.execute('''
-#     SELECT * FROM event;
-#     ''')
+#         SELECT body
+#         FROM event
+#         ORDER BY created DESC;
+#         ''')
 
 # post_cur = cur.fetchall()
 # print("Взяли список КОРТЕЖЕЙ в которых содержатся значения строк таблицы из курсора")
@@ -93,9 +94,7 @@ def get_conn_db():
 # lst_bd = list_tp_to_list_dict(post_cur, cur)
 # print("Сделали список словарей")
 # print(lst_bd)
-#
+
 # cur.close()
 # con.commit()
 # con.close()
-#
-
