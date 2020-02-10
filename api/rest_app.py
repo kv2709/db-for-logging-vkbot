@@ -76,7 +76,8 @@ def create_post():
     :return: dictionary {"code_error": "Created_new_post"}
     """
     req = request.json
-    body = req["body"]
+    print(req)
+    body = req["msg"]
     conn = get_conn_db()
     cur = conn.cursor()
     cur.execute(
