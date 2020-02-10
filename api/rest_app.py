@@ -57,7 +57,6 @@ def get_posts():
     cur.execute('''
             SELECT body
             FROM event
-            ORDER BY created DESC;
             ''')
 
     post_cur = cur.fetchall()
