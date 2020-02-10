@@ -1,7 +1,7 @@
 import json
 import datetime
 from flask import Flask, request
-from api.db import list_tp_to_list_dict, tp_to_dict, get_conn_db
+from api.db import list_tp_to_list_dict, get_conn_db
 from api.utils import json_response
 
 app = Flask(__name__)
@@ -40,7 +40,7 @@ def index_page():
                     Используются следующие URL:</h2><br>
                     <h3>/api/post/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
                    
-                    <h3> <a href="https://github.com/kv2709/db_for_logging_vkbot.git" target="_blank"> Исходнки на GitHub </a></h3><br> 
+                    <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> Исходнки на GitHub </a></h3><br> 
                               
             </body> 
         </html>'''
@@ -55,8 +55,8 @@ def get_posts():
     cur = conn.cursor()
 
     cur.execute('''
-            SELECT post.id, title, body, created, author_id, username
-            FROM post JOIN author ON post.author_id = author.id
+            SELECT body
+            FROM event
             ORDER BY created DESC;
             ''')
 
@@ -71,20 +71,17 @@ def get_posts():
 @app.route("/api/posts/", methods=['POST'])
 def create_post():
     """
-    Добавляет новый пост в БД, с содержанием, полученным в теле запроса
-        title
-        body
+    Добавляет новую запись в БД, с содержанием,
+    полученным в теле запроса body
     :return: dictionary {"code_error": "Created_new_post"}
     """
     req = request.json
-    title = req["title"]
     body = req["body"]
-    author_id = req["author_id"]
     conn = get_conn_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO post (title, body, author_id)" " VALUES (%s, %s, %s)",
-        (title, body, author_id),
+        "INSERT INTO post (body,)" " VALUES (%s,)",
+        (body,),
     )
     cur.close()
     conn.commit()
@@ -95,5 +92,4 @@ def create_post():
 
 # List of URL resource
 # "/api/posts/"
-
 # "/api/posts/", methods=['POST']

@@ -51,76 +51,38 @@ def get_conn_db():
 
     return conn
 
-
-"""
-Host
-ec2-184-72-235-159.compute-1.amazonaws.com
-Database
-d769313ahct159
-User
-abezsrfdejeaeh
-Port
-5432
-Password
-156b579cde2a6797646c770fbaadb99cc9ddffe845a0befbeead8795a54fa65d
-URI
-postgres://abezsrfdejeaeh:156b579cde2a6797646c770fbaadb99cc9ddffe845a0befbeead8795a54fa65d@ec2-184-72-235-159.compute-1.amazonaws.com:5432/d769313ahct159
-Heroku CLI
-heroku pg:psql postgresql-elliptical-50522 --app db-for-logging-vkbot
-"""
-con = get_conn_db()
-cur = con.cursor()
-
+# con = get_conn_db()
+# cur = con.cursor()
+#
 # cur.execute('''
-#     CREATE SEQUENCE author_ids;
+#     CREATE SEQUENCE event_ids;
 #     ''')
 #
 # cur.execute('''
-#     CREATE TABLE author (
-#     id INTEGER PRIMARY KEY DEFAULT NEXTVAL('author_ids'),
-#     username TEXT UNIQUE NOT NULL,
-#     password TEXT NOT NULL);
+#     CREATE TABLE event (
+#     id INTEGER PRIMARY KEY DEFAULT NEXTVAL('event_ids'),
+#     body TEXT NOT NULL);
 #     ''')
 #
 # cur.execute('''
-#     CREATE SEQUENCE post_ids;
+#     CREATE SEQUENCE error_ids;
 #     ''')
 #
 # cur.execute('''
-#     CREATE TABLE post (
-#      id INTEGER PRIMARY KEY DEFAULT NEXTVAL('post_ids'),
-#      author_id INTEGER NOT NULL,
-#      created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-#      title TEXT NOT NULL,
-#      body TEXT NOT NULL,
-#      FOREIGN KEY (author_id) REFERENCES author (id));
+#     CREATE TABLE error (
+#      id INTEGER PRIMARY KEY DEFAULT NEXTVAL('error_ids'),
+#      body TEXT NOT NULL);
 #      ''')
-#
-#
+
 
 # cur.execute('''
-#     INSERT INTO author (username, password) VALUES ('Киреев Юрий','123456');
+#     INSERT INTO event (body) VALUES ('Новая строка протокола работы бота');
 #     ''')
 #
+
 # cur.execute('''
-#     INSERT INTO author (username, password) VALUES ('Киреев Толик','098765');
+#     SELECT * FROM event;
 #     ''')
-
-
-# cur.execute('''
-#         INSERT INTO post (author_id, title, body)
-#         VALUES (1, 'Первый пост неизвестного юзера', 'Сожержание  поста ');
-#             ''')
-
-# cur.execute('''
-#     SELECT * FROM author;
-#     ''')
-
-# cur.execute('''
-#         SELECT post.id, title, body, created, author_id, username
-#         FROM post JOIN author ON post.author_id = author.id
-#         ORDER BY created DESC;
-#         ''')
 
 # post_cur = cur.fetchall()
 # print("Взяли список КОРТЕЖЕЙ в которых содержатся значения строк таблицы из курсора")
@@ -132,8 +94,8 @@ cur = con.cursor()
 # print("Сделали список словарей")
 # print(lst_bd)
 #
-cur.close()
-con.commit()
-con.close()
-
+# cur.close()
+# con.commit()
+# con.close()
+#
 
