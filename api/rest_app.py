@@ -46,8 +46,8 @@ def index_page():
         </html>'''
 
 
-@app.route("/api/posts/")
-def get_posts():
+@app.route("/api/events/")
+def get_events():
     """
     :return: json со всеми записями.
     """
@@ -67,8 +67,8 @@ def get_posts():
     return json_response(json.dumps(tp_bd, default=convert_dt))
 
 
-@app.route("/api/posts/", methods=['POST'])
-def create_post():
+@app.route("/api/events/", methods=['POST'])
+def create_event():
     """
     Добавляет новую запись в БД, с содержанием,
     полученным в теле запроса body
@@ -91,5 +91,5 @@ def create_post():
 
 
 # List of URL resource
-# "/api/posts/"
-# "/api/posts/", methods=['POST']
+# "/api/events/"
+# "/api/events/", methods=['POST']
