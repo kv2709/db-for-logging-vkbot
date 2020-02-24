@@ -51,6 +51,7 @@ def get_conn_db():
 
     return conn
 
+
 # con = get_conn_db()
 # cur = con.cursor()
 
@@ -75,7 +76,7 @@ def get_conn_db():
 #      ''')
 
 # cur.execute('''
-#     INSERT INTO event (body) VALUES ('Новая строка протокола работы бота');
+#     INSERT INTO event (body) VALUES ('Тест insert');
 #     ''')
 #
 

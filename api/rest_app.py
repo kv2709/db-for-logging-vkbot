@@ -80,9 +80,14 @@ def create_event():
     conn = get_conn_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO event (body,) VALUES (%s,)",
+        "INSERT INTO event (body)"
+        " VALUES (%s);",
         (body,),
     )
+    #
+    # '''
+    #     INSERT INTO event (body) VALUES ('Тест insert');
+    #     '''
     cur.close()
     conn.commit()
     conn.close()
