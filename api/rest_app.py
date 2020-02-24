@@ -75,7 +75,7 @@ def create_event():
     :return: dictionary {"code_error": "Created_new_log_record"}
     """
     req = request.json
-    print(req)
+    print(f"Пришел запрос ===>> {req}")
     body = req["msg"]
     conn = get_conn_db()
     cur = conn.cursor()
@@ -84,10 +84,6 @@ def create_event():
         " VALUES (%s);",
         (body,),
     )
-    #
-    # '''
-    #     INSERT INTO event (body) VALUES ('Тест insert');
-    #     '''
     cur.close()
     conn.commit()
     conn.close()
