@@ -72,7 +72,7 @@ def create_event():
     """
     Добавляет новую запись в БД, с содержанием,
     полученным в теле запроса body
-    :return: dictionary {"code_error": "Created_new_post"}
+    :return: dictionary {"code_error": "Created_new_log_record"}
     """
     req = request.json
     print(req)
@@ -80,14 +80,14 @@ def create_event():
     conn = get_conn_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO post (body,)" " VALUES (%s,)",
+        "INSERT INTO event (body,) VALUES (%s,)",
         (body,),
     )
     cur.close()
     conn.commit()
     conn.close()
 
-    return json_response(json.dumps({"code_error": "Created_new_post"}))
+    return json_response(json.dumps({"code_error": "Created_new_log_record"}))
 
 
 # List of URL resource
