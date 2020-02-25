@@ -76,7 +76,7 @@ def get_logs():
 def create_log_record():
     """
     Добавляет новую запись в БД, с содержанием,
-    полученным в теле запроса 
+    полученным в теле запроса
     :return: dictionary {"code_error": "Created_new_log_record"}
     """
     req = request.json

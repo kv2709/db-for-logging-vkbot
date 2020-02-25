@@ -55,47 +55,47 @@ def get_conn_db():
 # con = get_conn_db()
 # cur = con.cursor()
 
-# cur.execute('''
-#     CREATE SEQUENCE event_ids;
-#     ''')
-
-# cur.execute('''
-#     CREATE TABLE event (
-#     id INTEGER PRIMARY KEY DEFAULT NEXTVAL('event_ids'),
-#     body TEXT NOT NULL);
-#     ''')
-
-# cur.execute('''
-#     CREATE SEQUENCE error_ids;
-#     ''')
-
-# cur.execute('''
-#     CREATE TABLE error (
-#      id INTEGER PRIMARY KEY DEFAULT NEXTVAL('error_ids'),
-#      body TEXT NOT NULL);
-#      ''')
-
+# cur.execute('''ALTER TABLE event RENAME TO log;''')
+# cur.execute('''ALTER TABLE log ADD COLUMN level_name TEXT NOT NULL;''')
+# cur.execute('''DROP TABLE error;''')
+# cur.execute('''ALTER TABLE log RENAME COLUMN name_logger TO logger_name;''')
 # cur.execute('''
 #     INSERT INTO event (body) VALUES ('Тест insert');
 #     ''')
-#
 
 # cur.execute('''
 #         SELECT body
-#         FROM event
-#         ORDER BY created DESC;
+#         FROM event;
 #         ''')
 
-# post_cur = cur.fetchall()
-# print("Взяли список КОРТЕЖЕЙ в которых содержатся значения строк таблицы из курсора")
+# cur.execute('''
+#     CREATE SEQUENCE log_ids;
+#     ''')
 #
+# cur.execute('''
+#     CREATE TABLE log (
+#      id INTEGER PRIMARY KEY DEFAULT NEXTVAL('log_ids'),
+#      created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+#      time_created TEXT NOT NULL,
+#      logger_name TEXT NOT NULL,
+#      level_name TEXT NOT NULL
+#      file_name TEXT NOT NULL,
+#      func_name TEXT NOT NULL,
+#      line_number TEXT NOT NULL,
+#      msg TEXT NOT NULL);
+#      ''')
+
+# post_cur = cur.fetchall()
+# # print("Взяли список КОРТЕЖЕЙ в которых содержатся значения строк таблицы из курсора")
 # print(post_cur)
 # print("===================================")
-#
 # lst_bd = list_tp_to_list_dict(post_cur, cur)
-# print("Сделали список словарей")
+# # print("Сделали список словарей")
 # print(lst_bd)
-
+#
 # cur.close()
 # con.commit()
 # con.close()
+"""
+time_created, logger_name, level_name, file_name, func_name, line_number, msg
+"""
