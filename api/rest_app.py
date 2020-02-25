@@ -36,27 +36,32 @@ def index_page():
             </head>
             <body>
                 <h2>
-                    REST-Full Flask API записи в БД Postgres лог информаци от ВК-бота <br>
-                    Используются следующие URL:</h2><br>
-                    <h3>/api/post/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
-                   
-                    <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> Исходнки на GitHub </a></h3><br> 
-                              
+                    REST-Full Flask API для записи в БД Postgres лог информаци от ВК-бота <br>
+                    Используются следующие URL:
+                </h2><br>
+                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/logs/">/api/logs/</a>
+                        - возвращает последние десять записей логов 
+                    </h3><br>
+                    <h3>/api/log/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
+                    <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> 
+                        Исходнки на GitHub </a>
+                    </h3><br> 
             </body> 
         </html>'''
 
 
-@app.route("/api/events/")
-def get_events():
+@app.route("/api/logs/")
+def get_logs():
     """
-    :return: json со всеми записями.
+    :return: json с десятью последними записями.
     """
     conn = get_conn_db()
     cur = conn.cursor()
 
     cur.execute('''
-            SELECT body
-            FROM event
+            SELECT * FROM log
+            ORDER BY created DESC
+            LIMIT 10;
             ''')
 
     post_cur = cur.fetchall()
@@ -67,22 +72,27 @@ def get_events():
     return json_response(json.dumps(tp_bd, default=convert_dt))
 
 
-@app.route("/api/events/", methods=['POST'])
-def create_event():
+@app.route("/api/log/", methods=['POST'])
+def create_log_record():
     """
     Добавляет новую запись в БД, с содержанием,
-    полученным в теле запроса body
+    полученным в теле запроса 
     :return: dictionary {"code_error": "Created_new_log_record"}
     """
     req = request.json
-    print(f"Пришел запрос ===>> {req}")
-    body = req["msg"]
+    time_created = req["time_created"]
+    logger_name = req["logger_name"]
+    level_name = req["level_name"]
+    file_name = req["file_name"]
+    func_name = req["func_name"]
+    line_number = req["line_number"]
+    msg = req["msg"]
     conn = get_conn_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO event (body)"
-        " VALUES (%s);",
-        (body,),
+        "INSERT INTO log (time_created, logger_name, level_name, file_name, func_name, line_number, msg)"
+        " VALUES (%s, %s, %s, %s, %s, %s, %s)",
+        (time_created, logger_name, level_name, file_name, func_name, line_number, msg),
     )
     cur.close()
     conn.commit()
@@ -92,5 +102,5 @@ def create_event():
 
 
 # List of URL resource
-# "/api/events/"
-# "/api/events/", methods=['POST']
+# "/api/logs/"
+# "/api/logs/", methods=['POST']
