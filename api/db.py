@@ -63,9 +63,7 @@ def get_conn_db():
 #     INSERT INTO event (body) VALUES ('Тест insert');
 #     ''')
 
-# cur.execute('''
-#         SELECT body
-#         FROM event;
+# cur.execute('''DELETE FROM log;
 #         ''')
 
 # cur.execute('''

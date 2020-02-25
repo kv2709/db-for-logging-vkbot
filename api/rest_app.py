@@ -59,7 +59,7 @@ def get_logs():
     cur = conn.cursor()
 
     cur.execute('''
-            SELECT * FROM log
+            SELECT time_created, logger_name, level_name, file_name, func_name, line_number, msg FROM log
             ORDER BY created DESC
             LIMIT 10;
             ''')
