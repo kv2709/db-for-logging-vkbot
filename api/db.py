@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from psycopg2 import connect
 
 
@@ -50,50 +51,3 @@ def get_conn_db():
     conn = connect(dbname=db_name, user=user_name, host=host_name, password=passwd, port=port_num)
 
     return conn
-
-
-# con = get_conn_db()
-# cur = con.cursor()
-
-# cur.execute('''ALTER TABLE event RENAME TO log;''')
-# cur.execute('''ALTER TABLE log ADD COLUMN level_name TEXT NOT NULL;''')
-# cur.execute('''DROP TABLE error;''')
-# cur.execute('''ALTER TABLE log RENAME COLUMN name_logger TO logger_name;''')
-# cur.execute('''
-#     INSERT INTO event (body) VALUES ('Тест insert');
-#     ''')
-
-# cur.execute('''DELETE FROM log;
-#         ''')
-
-# cur.execute('''
-#     CREATE SEQUENCE log_ids;
-#     ''')
-#
-# cur.execute('''
-#     CREATE TABLE log (
-#      id INTEGER PRIMARY KEY DEFAULT NEXTVAL('log_ids'),
-#      created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-#      time_created TEXT NOT NULL,
-#      logger_name TEXT NOT NULL,
-#      level_name TEXT NOT NULL
-#      file_name TEXT NOT NULL,
-#      func_name TEXT NOT NULL,
-#      line_number TEXT NOT NULL,
-#      msg TEXT NOT NULL);
-#      ''')
-
-# post_cur = cur.fetchall()
-# # print("Взяли список КОРТЕЖЕЙ в которых содержатся значения строк таблицы из курсора")
-# print(post_cur)
-# print("===================================")
-# lst_bd = list_tp_to_list_dict(post_cur, cur)
-# # print("Сделали список словарей")
-# print(lst_bd)
-#
-# cur.close()
-# con.commit()
-# con.close()
-"""
-time_created, logger_name, level_name, file_name, func_name, line_number, msg
-"""

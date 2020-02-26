@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import datetime
 from flask import Flask, request
@@ -44,7 +45,10 @@ def index_page():
                     </h3><br>
                     <h3>/api/log/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
                     <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> 
-                        Исходнки на GitHub </a>
+                        Исходнки API на GitHub </a>
+                    </h3><br> 
+                    <h3> <a href="https://github.com/kv2709/vk-bot.git" target="_blank"> 
+                        Исходнки Бота на GitHub </a>
                     </h3><br> 
             </body> 
         </html>'''
@@ -100,7 +104,6 @@ def create_log_record():
 
     return json_response(json.dumps({"code_error": "Created_new_log_record"}))
 
-
 # List of URL resource
 # "/api/logs/"
-# "/api/logs/", methods=['POST']
+# "/api/log/", methods=['POST']
