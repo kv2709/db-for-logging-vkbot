@@ -73,8 +73,4 @@ class UserState(db.Entity):
 
 
 db.generate_mapping(create_tables=True)
-
-
-
-
-
+print(db.provider_name())
