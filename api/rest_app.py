@@ -118,11 +118,13 @@ def create_user_state_record():
     scenario_name = req["scenario_name"]
     step_name = req["step_name"]
     context = req["context"]
-    print(req)
-    us_st = UserState(user_id=user_id,
-                      scenario_name=scenario_name,
-                      step_name=step_name,
-                      context=context)
+# Словарь приходит на сервер, все ОК!
+    with db_session:
+        if UserState.select().first() is None:
+            us_st = UserState(user_id=user_id,
+                              scenario_name=scenario_name,
+                              step_name=step_name,
+                              context=context)
 
     return json_response(json.dumps({"code_error": "Created_new_log_record"}))
 
