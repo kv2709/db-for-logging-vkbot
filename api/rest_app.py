@@ -3,6 +3,7 @@ import json
 import datetime
 from flask import Flask, request
 from api.db import *
+from pony.orm import *
 from api.utils import json_response
 
 app = Flask(__name__)
@@ -42,6 +43,9 @@ def index_page():
                 </h2><br>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/logs/">/api/logs/</a>
                         - возвращает последние десять записей логов 
+                    </h3><br>
+                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_state/">/api/user_state/</a>
+                        - возвращает запись состояния пользователя Бота, если она есть 
                     </h3><br>
                     <h3>/api/log/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
                     <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> 
@@ -138,10 +142,9 @@ def user_state_record():
     """
 
     with db_session:
-        if UserState.select().first() is not None:
-            user_state_rec = select(us for us in UserState)
-
-    return json_response(json.dumps(user_state_rec, default=convert_dt))
+        user_state_rec = select(us for us in UserState)
+    print(user_state_rec)
+    return json_response(json.dumps(user_state_rec))
 
 
 # List of URL resource
