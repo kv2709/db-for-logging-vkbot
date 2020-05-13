@@ -147,7 +147,7 @@ def user_state_record():
                                  item.step_name,
                                  item.context) for item in UserState).first()
     print(user_state_rec)
-    # return json_response(json.dumps(user_state_rec))
+    return json_response(json.dumps({"test": "select"}))
 
 
 # List of URL resource
