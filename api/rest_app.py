@@ -118,7 +118,7 @@ def create_user_state_record():
     scenario_name = req["scenario_name"]
     step_name = req["step_name"]
     context = req["context"]
-# Словарь приходит на сервер, все ОК!
+
     with db_session:
         if UserState.select().first() is None:
             us_st = UserState(user_id=user_id,
@@ -129,8 +129,23 @@ def create_user_state_record():
     return json_response(json.dumps({"code_error": "Created_new_log_record"}))
 
 
+@db_session
+@app.route("/api/user_state/")
+def user_state_record():
+    """
+    Отдает запись user_state из таблицы userstate
+    :return: dictionary {"code_error": "Created_new_log_record"}
+    """
+
+    with db_session:
+        if UserState.select().first() is not None:
+            user_state_rec = select(us for us in UserState)
+
+    return json_response(json.dumps(user_state_rec, default=convert_dt))
+
+
 # List of URL resource
-# "/api/logs/"
+# "/api/logs/" methods=['GET']
 # "/api/log/", methods=['POST']
 # "/api/user_state/", methods=['POST']
-
+# "/api/user_state/", methods=['GET']
