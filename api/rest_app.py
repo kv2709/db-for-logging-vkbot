@@ -142,9 +142,15 @@ def user_state_record():
     """
 
     with db_session:
-        user_state_rec = select(us for us in UserState)
-    print(user_state_rec)
-    return json_response(json.dumps(user_state_rec))
+        user_state_rec = select(us for us in UserState).first()
+    response = {}
+    for item in user_state_rec:
+        response = {"user_id": item.user_id,
+                    "scenario_name": item.scenario_name,
+                    "step_name": item.step_name,
+                    "context": item.context
+                    }
+    return json_response(json.dumps(response))
 
 
 # List of URL resource
