@@ -146,8 +146,13 @@ def user_state_record():
                                  item.scenario_name,
                                  item.step_name,
                                  item.context) for item in UserState).first()
-    print(user_state_rec)
-    return json_response(json.dumps({"test": "select"}))
+    dict_for_response = {"user_id": user_state_rec[0],
+                         "scenario_name": user_state_rec[1],
+                         "step_name": user_state_rec[2],
+                         "context": user_state_rec[3]
+                         }
+
+    return json_response(json.dumps(dict_for_response))
 
 
 # List of URL resource
