@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import json
+
 from psycopg2 import connect
 from pony.orm import *
-from datetime import *
+
 
 DB_NAME = 'd769313ahct159'
 USER_NAME = 'abezsrfdejeaeh'
@@ -69,7 +69,7 @@ class UserState(db.Entity):
     user_id = Required(str, unique=True)
     scenario_name = Required(str)
     step_name = Required(str)
-    context = Required(json)
+    context = Required(Json)
 
 
 db.generate_mapping(create_tables=True)
