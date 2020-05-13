@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
 from psycopg2 import connect
+from pony.orm import *
+from datetime import *
+
+DB_NAME = 'd769313ahct159'
+USER_NAME = 'abezsrfdejeaeh'
+HOST_NAME = 'ec2-184-72-235-159.compute-1.amazonaws.com'
+PASSWD = '156b579cde2a6797646c770fbaadb99cc9ddffe845a0befbeead8795a54fa65d'
+PORT_NUM = '5432'
 
 
 def tp_to_dict(fetch_cur_in, cursor_in):
@@ -43,11 +52,29 @@ def list_tp_to_list_dict(fetch_cur_in, cursor_in, key="lst"):
 
 
 def get_conn_db():
-    db_name = 'd769313ahct159'
-    user_name = 'abezsrfdejeaeh'
-    host_name = 'ec2-184-72-235-159.compute-1.amazonaws.com'
-    passwd = '156b579cde2a6797646c770fbaadb99cc9ddffe845a0befbeead8795a54fa65d'
-    port_num = '5432'
-    conn = connect(dbname=db_name, user=user_name, host=host_name, password=passwd, port=port_num)
-
+    conn = connect(dbname=DB_NAME, user=USER_NAME, host=HOST_NAME, password=PASSWD, port=PORT_NUM)
     return conn
+
+
+# -------------------------- Обработка сохранения userState через Pony ORM------------------------------------
+db = Database()
+db.bind(provider='postgres', user=USER_NAME, password=PASSWD,
+        host=HOST_NAME, port=PORT_NUM, database=DB_NAME)
+
+
+class UserState(db.Entity):
+    """
+    Состояние пользователя внутри сценария
+    """
+    user_id = Required(str, unique=True)
+    scenario_name = Required(str)
+    step_name = Required(str)
+    context = Required(json)
+
+
+db.generate_mapping(create_tables=True)
+
+
+
+
+

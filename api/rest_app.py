@@ -2,7 +2,7 @@
 import json
 import datetime
 from flask import Flask, request
-from api.db import list_tp_to_list_dict, get_conn_db
+from api.db import *
 from api.utils import json_response
 
 app = Flask(__name__)
@@ -79,7 +79,7 @@ def get_logs():
 @app.route("/api/log/", methods=['POST'])
 def create_log_record():
     """
-    Добавляет новую запись в БД, с содержанием,
+    Добавляет новую запись лога в таблицу log, с содержанием,
     полученным в теле запроса
     :return: dictionary {"code_error": "Created_new_log_record"}
     """
@@ -104,6 +104,30 @@ def create_log_record():
 
     return json_response(json.dumps({"code_error": "Created_new_log_record"}))
 
+
+@db_session
+@app.route("/api/user_state/", methods=['POST'])
+def create_user_state_record():
+    """
+    Добавляет новую запись user_state в таблицу userstate, с содержанием,
+    полученным в теле запроса
+    :return: dictionary {"code_error": "Created_new_log_record"}
+    """
+    req = request.json
+    user_id = req["user_id"]
+    scenario_name = req["scenario_name"]
+    step_name = req["step_name"]
+    context = req["context"]
+    us_st = UserState(user_id=user_id,
+                      scenario_name=scenario_name,
+                      step_name=step_name,
+                      context=context)
+
+    return json_response(json.dumps({"code_error": "Created_new_log_record"}))
+
+
 # List of URL resource
 # "/api/logs/"
 # "/api/log/", methods=['POST']
+# "/api/user_state/", methods=['POST']
+
