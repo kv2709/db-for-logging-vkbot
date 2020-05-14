@@ -109,6 +109,7 @@ def create_log_record():
     return json_response(json.dumps({"code_error": "Created_new_log_record"}))
 
 
+# =============================== PonyORM for user_sate ===================================
 @db_session
 @app.route("/api/user_state/", methods=['POST'])
 def create_user_state_record():
@@ -130,12 +131,12 @@ def create_user_state_record():
                               step_name=step_name,
                               context=context)
 
-    return json_response(json.dumps({"code_error": "Created_new_log_record"}))
+    return json_response(json.dumps({"code_error": "Created_new_user_state_record"}))
 
 
 @db_session
-@app.route("/api/user_state/")
-def user_state_record():
+@app.route("/api/user_state/<user_id>")
+def user_state_record(user_id):
     """
     Отдает запись user_state из таблицы userstate
     :return: dictionary {"code_error": "Created_new_log_record"}
@@ -145,14 +146,43 @@ def user_state_record():
         user_state_rec = select((item.user_id,
                                  item.scenario_name,
                                  item.step_name,
-                                 item.context) for item in UserState).first()
-    dict_for_response = {"user_id": user_state_rec[0],
-                         "scenario_name": user_state_rec[1],
-                         "step_name": user_state_rec[2],
-                         "context": user_state_rec[3]
-                         }
-
+                                 item.context) for item in UserState if item.user_id == user_id).first()
+    if user_state_rec is not None:
+        dict_for_response = {"user_id": user_state_rec[0],
+                             "scenario_name": user_state_rec[1],
+                             "step_name": user_state_rec[2],
+                             "context": user_state_rec[3]
+                             }
+    else:
+        dict_for_response = {"user_id": f"Record for {user_id} not found"}
     return json_response(json.dumps(dict_for_response))
+
+
+@db_session
+@app.route("/api/posts/<user_id>", methods=['PUT'])
+def update_user_state(user_id):
+    """
+    Записывает в БД измененный  user_state for user_id
+    :param user_id:
+    :return:
+    """
+
+    # req = request.get_json()
+
+    return json_response(json.dumps({"code_error": "Updated_post"}))
+
+
+@app.route("/api/posts/<user_id>", methods=['DELETE'])
+def delete_post(user_id):
+    """
+    Удаляет из БД  user_state for user_id
+    :param user_id:
+    :return: Словарь {"code_error": "Deleted_post"}
+    """
+
+    return json_response(json.dumps({"code_error": "Deleted_post"}))
+
+
 
 
 # List of URL resource
