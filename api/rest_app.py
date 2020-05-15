@@ -150,17 +150,17 @@ def all_user_state_record():
                                  item.scenario_name,
                                  item.step_name,
                                  item.context) for item in UserState)
-    if user_state_rec is not None:
-        response_list = []
-        for item in user_state_rec:
-            dict_for_response = {"user_id": item[0],
-                                 "scenario_name": item[1],
-                                 "step_name": item[2],
-                                 "context": item[3]
-                                 }
-            response_list.append(dict_for_response)
-    else:
-        response_list = {"response": "Records not found"}
+        if user_state_rec is not None:
+            response_list = []
+            for item in user_state_rec:
+                dict_for_response = {"user_id": item[0],
+                                     "scenario_name": item[1],
+                                     "step_name": item[2],
+                                     "context": item[3]
+                                     }
+                response_list.append(dict_for_response)
+        else:
+            response_list = {"response": "Records not found"}
     return json_response(json.dumps(response_list))
 
 
