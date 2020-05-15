@@ -177,9 +177,9 @@ def update_user_state(user_id):
     with db_session:
         user_state = UserState.get(user_id=user_id)
         if user_state is not None:
-            user_state(scenario_name=scenario_name,
-                       step_name=step_name,
-                       context=context)
+            user_state.set(scenario_name=scenario_name,
+                           step_name=step_name,
+                           context=context)
 
     return json_response(json.dumps({"code_error": "Updated_post"}))
 
@@ -195,7 +195,7 @@ def delete_user_state(user_id):
     with db_session:
         user_state = UserState.get(user_id=user_id)
         if user_state is not None:
-            user_state.delete()
+            UserState(user_id=user_id).delete()
 
     return json_response(json.dumps({"code_error": "Deleted_post"}))
 
