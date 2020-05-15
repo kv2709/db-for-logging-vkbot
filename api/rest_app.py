@@ -131,8 +131,10 @@ def create_user_state_record():
                               scenario_name=scenario_name,
                               step_name=step_name,
                               context=context)
-
-    return json_response(json.dumps({"code_error": "Created_new_user_state_record"}))
+            response = f"Created new user_state record for user_id {user_id}"
+        else:
+            response = f"Record for user_id {user_id} already exist"
+    return json_response(json.dumps({"code_error": response}))
 
 
 @db_session
@@ -169,7 +171,6 @@ def update_user_state(user_id):
     """
 
     req = request.get_json()
-    # req = request.json
     user_id = req["user_id"]
     scenario_name = req["scenario_name"]
     step_name = req["step_name"]
@@ -181,8 +182,10 @@ def update_user_state(user_id):
             user_state.set(scenario_name=scenario_name,
                            step_name=step_name,
                            context=context)
-
-    return json_response(json.dumps({"code_error": "Updated_user_state"}))
+            response = f"Record for user_id {user_id} updated"
+        else:
+            response = f"Record for user_id {user_id} not found"
+    return json_response(json.dumps({"code_error": response}))
 
 
 @app.route("/api/user_state/<user_id>", methods=['DELETE'])
@@ -197,8 +200,11 @@ def delete_user_state(user_id):
         user_state = UserState.get(user_id=user_id)
         if user_state is not None:
             user_state.delete()
+            response = f"Record for user_id {user_id} deleted"
+        else:
+            response = f"Record for user_id {user_id} not found"
 
-    return json_response(json.dumps({"code_error": "Deleted_user_state"}))
+    return json_response(json.dumps({"code_error": response}))
 
 
 # List of URL resource
