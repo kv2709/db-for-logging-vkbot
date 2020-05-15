@@ -139,7 +139,7 @@ def create_user_state_record():
 
 @db_session
 @app.route("/api/user_state/")
-def user_state_record():
+def all_user_state_record():
     """
     Отдает запись user_state из таблицы userstate
     :return: dictionary {"code_error": "Created_new_log_record"}
