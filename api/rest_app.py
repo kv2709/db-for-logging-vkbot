@@ -159,7 +159,7 @@ def user_state_record(user_id):
 
 
 @db_session
-@app.route("/api/posts/<user_id>", methods=['PUT'])
+@app.route("/api/user_state/<user_id>", methods=['PUT'])
 def update_user_state(user_id):
     """
     Записывает в БД измененный  user_state for user_id
@@ -167,26 +167,43 @@ def update_user_state(user_id):
     :return:
     """
 
-    # req = request.get_json()
+    req = request.get_json()
+    # req = request.json
+    user_id = req["user_id"]
+    scenario_name = req["scenario_name"]
+    step_name = req["step_name"]
+    context = req["context"]
+
+    with db_session:
+        user_state = UserState.get(user_id=user_id)
+        if user_state is not None:
+            user_state(scenario_name=scenario_name,
+                       step_name=step_name,
+                       context=context)
 
     return json_response(json.dumps({"code_error": "Updated_post"}))
 
 
-@app.route("/api/posts/<user_id>", methods=['DELETE'])
-def delete_post(user_id):
+@app.route("/api/user_state/<user_id>", methods=['DELETE'])
+def delete_user_state(user_id):
     """
     Удаляет из БД  user_state for user_id
     :param user_id:
     :return: Словарь {"code_error": "Deleted_post"}
     """
 
+    with db_session:
+        user_state = UserState.get(user_id=user_id)
+        if user_state is not None:
+            user_state.delete()
+
     return json_response(json.dumps({"code_error": "Deleted_post"}))
-
-
 
 
 # List of URL resource
 # "/api/logs/" methods=['GET']
 # "/api/log/", methods=['POST']
 # "/api/user_state/", methods=['POST']
-# "/api/user_state/", methods=['GET']
+# "/api/user_state/<user_id>", methods=['GET']
+# "/api/user_state/<user_id>", methods=['PUT']
+# "/api/user_state/<user_id>", methods=['DELETE']
