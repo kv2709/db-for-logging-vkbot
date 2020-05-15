@@ -134,7 +134,34 @@ def create_user_state_record():
             response = f"Created new user_state record for user_id {user_id}"
         else:
             response = f"Record for user_id {user_id} already exist"
-    return json_response(json.dumps({"code_error": response}))
+    return json_response(json.dumps({"response": response}))
+
+
+@db_session
+@app.route("/api/user_state/")
+def user_state_record():
+    """
+    Отдает запись user_state из таблицы userstate
+    :return: dictionary {"code_error": "Created_new_log_record"}
+    """
+
+    with db_session:
+        user_state_rec = select((item.user_id,
+                                 item.scenario_name,
+                                 item.step_name,
+                                 item.context) for item in UserState)
+    if user_state_rec is not None:
+        response_list = []
+        for item in user_state_rec:
+            dict_for_response = {"user_id": item[0],
+                                 "scenario_name": item[1],
+                                 "step_name": item[2],
+                                 "context": item[3]
+                                 }
+            response_list.append(dict_for_response)
+    else:
+        response_list = {"response": "Records not found"}
+    return json_response(json.dumps(response_list))
 
 
 @db_session
@@ -157,7 +184,7 @@ def user_state_record(user_id):
                              "context": user_state_rec[3]
                              }
     else:
-        dict_for_response = {"user_id": f"Record for {user_id} not found"}
+        dict_for_response = {"response": f"Record for {user_id} not found"}
     return json_response(json.dumps(dict_for_response))
 
 
@@ -185,7 +212,7 @@ def update_user_state(user_id):
             response = f"Record for user_id {user_id} updated"
         else:
             response = f"Record for user_id {user_id} not found"
-    return json_response(json.dumps({"code_error": response}))
+    return json_response(json.dumps({"response": response}))
 
 
 @app.route("/api/user_state/<user_id>", methods=['DELETE'])
@@ -204,7 +231,7 @@ def delete_user_state(user_id):
         else:
             response = f"Record for user_id {user_id} not found"
 
-    return json_response(json.dumps({"code_error": response}))
+    return json_response(json.dumps({"response": response}))
 
 
 # List of URL resource
