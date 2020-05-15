@@ -196,7 +196,7 @@ def delete_user_state(user_id):
     with db_session:
         user_state = UserState.get(user_id=user_id)
         if user_state is not None:
-            UserState(user_id=user_id).delete()
+            user_state.delete()
 
     return json_response(json.dumps({"code_error": "Deleted_user_state"}))
 
