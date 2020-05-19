@@ -254,8 +254,10 @@ def create_user_registration_record():
 
     with db_session:
         user_registration = RegistrationUser.get(name=name, email=email)
+        print(user_registration)
         if user_registration is None:
             us_rg = RegistrationUser(name=name, email=email)
+            print(us_rg)
             response = f"Created new registration record for {name} with email:{email}"
         else:
             response = f"Record for user_id {name} with email:{email} already exist"
