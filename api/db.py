@@ -72,4 +72,12 @@ class UserState(db.Entity):
     context = Required(Json)
 
 
+class RegistrationUser(db.Entity):
+    """
+    Данные на зарегистрированого пользователя
+    """
+    name = Required(str)
+    email = Required(str)
+
+
 db.generate_mapping(create_tables=True)

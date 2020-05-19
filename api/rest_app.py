@@ -45,9 +45,13 @@ def index_page():
                         - возвращает последние десять записей логов 
                     </h3><br>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_state/">/api/user_state/</a>
-                        - возвращает запись состояния пользователя Бота, если она есть 
+                        - возвращает записи состояний пользователей Бота, если она есть 
+                    </h3><br>
+                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_registration//">/api/user_registration//</a>
+                        - возвращает записи зарегистрированных на конференцию пользователей  
                     </h3><br>
                     <h3>/api/log/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
+                    
                     <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> 
                         Исходнки API на GitHub </a>
                     </h3><br> 
@@ -116,7 +120,7 @@ def create_user_state_record():
     """
     Добавляет новую запись user_state в таблицу userstate, с содержанием,
     полученным в теле запроса
-    :return: dictionary {"code_error": "Created_new_log_record"}
+    :return: Словарь {"response": Created new user_state record for user_id {user_id}"}
     """
     req = request.json
     user_id = req["user_id"]
@@ -139,10 +143,11 @@ def create_user_state_record():
 
 @db_session
 @app.route("/api/user_state/")
-def all_user_state_record():
+def all_user_state_records():
     """
-    Отдает запись user_state из таблицы userstate
-    :return: dictionary {"code_error": "Created_new_log_record"}
+    Отдает все записи user_state из таблицы userstate
+    :return: Словарь {"response": "Records not found"}
+             в случае ошибки или список словарей со всеми записями
     """
 
     with db_session:
@@ -168,8 +173,9 @@ def all_user_state_record():
 @app.route("/api/user_state/<user_id>")
 def user_state_record(user_id):
     """
-    Отдает запись user_state из таблицы userstate
-    :return: dictionary {"code_error": "Created_new_log_record"}
+    Отдает запись user_state для запрашиваемого user_id из таблицы userstate
+    :return: Словарь {"response": "Record for {user_id} not found"}
+             в случае ошибки или словарь с найденной записью
     """
 
     with db_session:
@@ -194,7 +200,7 @@ def update_user_state(user_id):
     """
     Записывает в БД измененный  user_state for user_id
     :param user_id:
-    :return:
+    :return: Словарь {"response": "Record for user_id {user_id} updated"}
     """
 
     req = request.get_json()
@@ -220,7 +226,7 @@ def delete_user_state(user_id):
     """
     Удаляет из БД  user_state for user_id
     :param user_id:
-    :return: Словарь {"code_error": "Deleted_post"}
+    :return: Словарь {"response": "Record for user_id {user_id} deleted"}
     """
 
     with db_session:
@@ -234,6 +240,50 @@ def delete_user_state(user_id):
     return json_response(json.dumps({"response": response}))
 
 
+@db_session
+@app.route("/api/user_registration/", methods=['POST'])
+def create_user_registration_record():
+    """
+    Добавляет новую запись о зарегистрированном пользователе в таблицу RegistrationUser,
+    с содержанием, полученным в теле запроса (name, email)
+    :return: Словрь {"response": "Created new registration record for {name} with email:{email}"}
+    """
+    req = request.json
+    name = req["name"]
+    email = req["email"]
+
+    with db_session:
+        user_registration = RegistrationUser.get(name=name, email=email)
+        if user_registration is None:
+            us_rg = RegistrationUser(name=name, email=email)
+            response = f"Created new registration record for {name} with email:{email}"
+        else:
+            response = f"Record for user_id {name} with email:{email} already exist"
+    return json_response(json.dumps({"response": response}))
+
+
+@db_session
+@app.route("/api/user_registration/")
+def all_user_registration_records():
+    """
+    Отдает все записи о зарегистрированных пользователях из таблицы RegistrationUser,
+    :return: Список словрей [{"user_name": name, "user_email": email}] или
+                            {"response": "Records not found"}
+    """
+    with db_session:
+        user_reg_rec = select((item.name,
+                               item.email) for item in RegistrationUser)
+        if user_reg_rec is not None:
+            response_list = []
+            for item in user_reg_rec:
+                dict_for_response = {"user_name": item[0],
+                                     "user_email": item[1]
+                                     }
+                response_list.append(dict_for_response)
+        else:
+            response_list = {"response": "Records not found"}
+    return json_response(json.dumps(response_list))
+
 # List of URL resource
 # "/api/logs/" methods=['GET']
 # "/api/log/", methods=['POST']
@@ -241,3 +291,5 @@ def delete_user_state(user_id):
 # "/api/user_state/<user_id>", methods=['GET']
 # "/api/user_state/<user_id>", methods=['PUT']
 # "/api/user_state/<user_id>", methods=['DELETE']
+# "/api/user_registration/", methods=['POST']
+# "/api/user_registration/", methods=['GET']
