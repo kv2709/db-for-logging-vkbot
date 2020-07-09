@@ -38,18 +38,19 @@ def index_page():
             </head>
             <body>
                 <h2>
-                    REST-Full Flask API для записи в БД Postgres лог информаци от ВК-бота <br>
+                    REST-Full Flask API для записи в БД Postgres лог информаци от ВК-Бота <br>
                     Используются следующие URL:
                 </h2><br>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/logs/">/api/logs/</a>, 
-                        methods=['GET'] - возвращает последние десять записей логов бота
+                        methods=['GET'] - возвращает последние десять записей логов Бота
                     </h3>
-                    <h3>/api/log/, methods=['POST'] - добавляет в БД новую строку лога
+                    <h3>/api/log/, methods=['POST'] - добавляет в таблицу log новую строку лога
                     </h3>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_state/">/api/user_state/</a>, 
-                        methods=['GET'] - возвращает записи состояний пользователей Бота, если они есть 
+                        methods=['GET'] - возвращает из таблицы userstate записи состояний пользователей Бота, 
+                        если они есть 
                     </h3>
-                    <h3>/api/user_state/<user_id>, methods=['GET'] - возвращает запись user_state из таблицу 
+                    <h3>/api/user_state/<user_id>, methods=['GET'] - возвращает запись user_state из таблицы 
                         userstate для запрашиваемого user_id
                     </h3>
                     <h3>/api/user_state/<user_id>, methods=['PUT'] - записывает в таблицу userstate измененный 
@@ -62,8 +63,8 @@ def index_page():
                         пользователе в таблицу registrationuser
                     </h3>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_registration/">
-                        /api/user_registration/</a>, methods=['GET'] - возвращает записи последних десяти 
-                        зарегистрированных на конференцию пользователей  
+                        /api/user_registration/</a>, methods=['GET'] - возвращает из таблицы registrationuser записи 
+                        последних десяти зарегистрированных на конференцию пользователей  
                     </h3><br>
                     
                     <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> 
