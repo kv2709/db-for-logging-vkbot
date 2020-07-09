@@ -50,16 +50,16 @@ def index_page():
                         methods=['GET'] - возвращает из таблицы userstate записи состояний пользователей Бота, 
                         если они есть 
                     </h3>
-                    <h3>/api/user_state/<user_id>, methods=['GET'] - возвращает запись user_state из таблицы 
+                    <h3>/api/user_state/&lt;user_id&gt;, methods=['GET'] - возвращает запись user_state из таблицы 
                         userstate для запрашиваемого user_id
                     </h3>
-                    <h3>/api/user_state/<user_id>, methods=['PUT'] - записывает в таблицу userstate измененный 
+                    <h3>/api/user_state/&lt;user_id&gt;, methods=['PUT'] - записывает в таблицу userstate измененный 
                         user_state для указанного user_id
                     </h3>
-                    <h3>/api/user_state/<user_id>, methods=['DELETE'] - удаляет из таблицы userstate запись user_state 
+                    <h3>/api/user_state/&lt;user_id&gt;, methods=['DELETE'] - удаляет из таблицы userstate запись user_state 
                         для указанного user_id
                     </h3>
-                    <h3>/api/user_registration/", methods=['POST'] - добавляет новую запись о зарегистрированном 
+                    <h3>/api/user_registration/, methods=['POST'] - добавляет новую запись о зарегистрированном 
                         пользователе в таблицу registrationuser
                     </h3>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_registration/">
