@@ -41,13 +41,13 @@ def index_page():
                     REST-Full Flask API для записи в БД Postgres лог информаци от ВК-бота <br>
                     Используются следующие URL:
                 </h2><br>
-                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/logs/">/api/logs/</a>
-                        - возвращает последние десять записей логов бота
+                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/logs/">/api/logs/</a>, 
+                        methods=['GET'] - возвращает последние десять записей логов бота
                     </h3>
-                    <h3>/api/log/ methods=['POST'] - добавляет в БД новую строку лога
+                    <h3>/api/log/, methods=['POST'] - добавляет в БД новую строку лога
                     </h3>
-                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_state/">/api/user_state/</a>
-                        - возвращает записи состояний пользователей Бота, если они есть 
+                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_state/">/api/user_state/</a>, 
+                        methods=['GET'] - возвращает записи состояний пользователей Бота, если они есть 
                     </h3>
                     <h3>/api/user_state/<user_id>, methods=['GET'] - возвращает запись user_state из таблицу 
                         userstate для запрашиваемого user_id
@@ -62,7 +62,7 @@ def index_page():
                         пользователе в таблицу registrationuser
                     </h3>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_registration/">
-                        /api/user_registration//</a> methods=['GET'] - возвращает записи последних десяти 
+                        /api/user_registration/</a>, methods=['GET'] - возвращает записи последних десяти 
                         зарегистрированных на конференцию пользователей  
                     </h3><br>
                     
