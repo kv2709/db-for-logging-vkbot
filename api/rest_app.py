@@ -275,16 +275,14 @@ def all_user_registration_records():
         user_reg_rec = select(item for item in RegistrationUser).order_by(lambda item: desc(item.created))[:2]
 
         if user_reg_rec is not None:
-            print(user_reg_rec)
-            response_list = {"response": "Records found"}
-            # response_list = []
-            # for item in user_reg_rec:
-            #     time_created = str(item[0])
-            #     dict_for_response = {"created": time_created,
-            #                          "user_name": item[1],
-            #                          "user_email": item[2]
-            #                          }
-            #     response_list.append(dict_for_response)
+            response_list = []
+            for item in user_reg_rec:
+                time_created = str(item.created)
+                dict_for_response = {"created": time_created,
+                                     "user_name": item.name,
+                                     "user_email": item.email
+                                     }
+                response_list.append(dict_for_response)
         else:
             response_list = {"response": "Records not found"}
     return json_response(json.dumps(response_list))
