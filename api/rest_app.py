@@ -42,15 +42,29 @@ def index_page():
                     Используются следующие URL:
                 </h2><br>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/logs/">/api/logs/</a>
-                        - возвращает последние десять записей логов 
-                    </h3><br>
+                        - возвращает последние десять записей логов бота
+                    </h3>
+                    <h3>/api/log/ methods=['POST'] - добавляет в БД новую строку лога
+                    </h3>
                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_state/">/api/user_state/</a>
-                        - возвращает записи состояний пользователей Бота, если она есть 
+                        - возвращает записи состояний пользователей Бота, если они есть 
+                    </h3>
+                    <h3>/api/user_state/<user_id>, methods=['GET'] - возвращает запись user_state из таблицу 
+                        userstate для запрашиваемого user_id
+                    </h3>
+                    <h3>/api/user_state/<user_id>, methods=['PUT'] - записывает в таблицу userstate измененный 
+                        user_state для указанного user_id
+                    </h3>
+                    <h3>/api/user_state/<user_id>, methods=['DELETE'] - удаляет из таблицы userstate запись user_state 
+                        для указанного user_id
+                    </h3>
+                    <h3>/api/user_registration/", methods=['POST'] - добавляет новую запись о зарегистрированном 
+                        пользователе в таблицу registrationuser
+                    </h3>
+                    <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_registration/">
+                        /api/user_registration//</a> methods=['GET'] - возвращает записи последних десяти 
+                        зарегистрированных на конференцию пользователей  
                     </h3><br>
-                     <h3><a href="https://db-for-logging-vkbot.herokuapp.com/api/user_registration//">/api/user_registration//</a>
-                        - возвращает записи зарегистрированных на конференцию пользователей  
-                    </h3><br>
-                    <h3>/api/log/ methods 'POST' - добавляет в БД новую строку лога</h3><br>
                     
                     <h3> <a href="https://github.com/kv2709/db-for-logging-vkbot.git" target="_blank"> 
                         Исходнки API на GitHub </a>
@@ -267,12 +281,12 @@ def create_user_registration_record():
 @app.route("/api/user_registration/")
 def all_user_registration_records():
     """
-    Отдает все записи о зарегистрированных пользователях из таблицы RegistrationUser,
+    Отдает 10 записей о зарегистрированных пользователях из таблицы RegistrationUser,
     :return: Список словрей [{"created": datetime, "user_name": name, "user_email": email}] или
                             {"response": "Records not found"}
     """
     with db_session:
-        user_reg_rec = select(item for item in RegistrationUser).order_by(lambda item: desc(item.created))[:2]
+        user_reg_rec = select(item for item in RegistrationUser).order_by(lambda item: desc(item.created))[:10]
 
         if user_reg_rec is not None:
             response_list = []
