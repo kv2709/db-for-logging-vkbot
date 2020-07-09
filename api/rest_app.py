@@ -272,8 +272,7 @@ def all_user_registration_records():
                             {"response": "Records not found"}
     """
     with db_session:
-        user_reg_rec = select((item.created, item.name, item.email)
-                              for item in RegistrationUser).order_by(desc(RegistrationUser.created))[:10]
+        user_reg_rec = select(items for items in RegistrationUser).order_by(desc(RegistrationUser.created))[:10]
         if user_reg_rec is not None:
             response_list = []
             for item in user_reg_rec:
