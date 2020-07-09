@@ -221,6 +221,7 @@ def update_user_state(user_id):
     return json_response(json.dumps({"response": response}))
 
 
+@db_session
 @app.route("/api/user_state/<user_id>", methods=['DELETE'])
 def delete_user_state(user_id):
     """
@@ -254,10 +255,8 @@ def create_user_registration_record():
 
     with db_session:
         user_registration = RegistrationUser.get(name=name, email=email)
-        print(user_registration)
         if user_registration is None:
             us_rg = RegistrationUser(name=name, email=email)
-            print(us_rg)
             response = f"Created new registration record for {name} with email:{email}"
         else:
             response = f"Record for user_id {name} with email:{email} already exist"
@@ -273,13 +272,14 @@ def all_user_registration_records():
                             {"response": "Records not found"}
     """
     with db_session:
-        user_reg_rec = select((item.name,
-                               item.email) for item in RegistrationUser)
+        user_reg_rec = select((item.created, item.name, item.email)
+                              for item in RegistrationUser).order_by(desc(RegistrationUser.created))
         if user_reg_rec is not None:
             response_list = []
             for item in user_reg_rec:
-                dict_for_response = {"user_name": item[0],
-                                     "user_email": item[1]
+                dict_for_response = {"created": item[0],
+                                     "user_name": item[1],
+                                     "user_email": item[2]
                                      }
                 response_list.append(dict_for_response)
         else:

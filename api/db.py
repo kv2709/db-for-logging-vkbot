@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 from psycopg2 import connect
 from pony.orm import *
@@ -76,6 +77,7 @@ class RegistrationUser(db.Entity):
     """
     Данные на зарегистрированого пользователя
     """
+    created = Required(datetime)
     name = Required(str)
     email = Required(str)
 
