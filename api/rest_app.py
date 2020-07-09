@@ -278,7 +278,8 @@ def all_user_registration_records():
         if user_reg_rec is not None:
             response_list = []
             for item in user_reg_rec:
-                dict_for_response = {"created": item[0],
+                time_created = str(item[0])
+                dict_for_response = {"created": time_created,
                                      "user_name": item[1],
                                      "user_email": item[2]
                                      }
