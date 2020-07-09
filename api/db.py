@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from datetime import datetime
 
 from psycopg2 import connect
 from pony.orm import *
