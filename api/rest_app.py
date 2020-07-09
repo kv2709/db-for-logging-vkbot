@@ -273,7 +273,7 @@ def all_user_registration_records():
     """
     with db_session:
         user_reg_rec = select((item.created, item.name, item.email)
-                              for item in RegistrationUser).order_by(lambda item: desc(item.created))[:10]
+                              for item in RegistrationUser).order_by(RegistrationUser.created)[:2]
         if user_reg_rec is not None:
             response_list = []
             for item in user_reg_rec:
