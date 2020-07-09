@@ -77,7 +77,7 @@ class RegistrationUser(db.Entity):
     """
     Данные на зарегистрированого пользователя
     """
-    created = Required(datetime)
+    created = Required(datetime, sql_default='CURRENT_TIMESTAMP')
     name = Required(str)
     email = Required(str)
 
