@@ -272,17 +272,19 @@ def all_user_registration_records():
                             {"response": "Records not found"}
     """
     with db_session:
-        user_reg_rec = select((item.created, item.name, item.email)
-                              for item in RegistrationUser).order_by(RegistrationUser.created)[:2]
+        user_reg_rec = select(item for item in RegistrationUser).order_by(lambda item: desc(item.created))[:2]
+
         if user_reg_rec is not None:
-            response_list = []
-            for item in user_reg_rec:
-                time_created = str(item[0])
-                dict_for_response = {"created": time_created,
-                                     "user_name": item[1],
-                                     "user_email": item[2]
-                                     }
-                response_list.append(dict_for_response)
+            print(user_reg_rec)
+            response_list = {"response": "Records found"}
+            # response_list = []
+            # for item in user_reg_rec:
+            #     time_created = str(item[0])
+            #     dict_for_response = {"created": time_created,
+            #                          "user_name": item[1],
+            #                          "user_email": item[2]
+            #                          }
+            #     response_list.append(dict_for_response)
         else:
             response_list = {"response": "Records not found"}
     return json_response(json.dumps(response_list))
