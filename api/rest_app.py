@@ -7,6 +7,7 @@ from pony.orm import *
 from api.utils import json_response
 
 app = Flask(__name__)
+# TODO заменить интерпретатор pyyhon на 3.8.5
 
 
 def convert_dt(o):
